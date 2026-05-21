@@ -258,7 +258,7 @@ class AwgShowWrapper:
         except subprocess.CalledProcessError as e:
             log.error(f"Subprocess failed: {e.stderr.strip()}")
         except FileNotFoundError:
-            log.error("AWG binary not found.")
+            log.error("WireGuard binary not found.")
         except Exception as e:
             log.error(f"Unexpected error: {e}")
         return ''
@@ -489,7 +489,7 @@ def main():
         addr=raw.get('AWG_EXPORTER_LISTEN_ADDR', '0.0.0.0'),
         metrics_file=raw.get('AWG_EXPORTER_METRICS_FILE', '/tmp/prometheus/awg.prom'),
         ops_mode=raw.get('AWG_EXPORTER_OPS_MODE', 'http'),
-        awg_executable=raw.get('AWG_EXPORTER_AWG_SHOW_EXEC', 'awg show all dump'),
+        awg_executable=raw.get('AWG_EXPORTER_AWG_SHOW_EXEC', 'wg show all dump'),
         docker_containers=docker_containers,
         docker_socket=raw.get('AWG_EXPORTER_DOCKER_SOCKET', '/var/run/docker.sock'),
         redis_host=raw.get('AWG_EXPORTER_REDIS_HOST', 'localhost'),

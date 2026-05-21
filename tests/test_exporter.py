@@ -63,7 +63,7 @@ def make_config(docker_containers=None):
         addr='127.0.0.1',
         metrics_file='/tmp/awg.prom',
         ops_mode='http',
-        awg_executable='awg show all dump',
+        awg_executable='wg show all dump',
         docker_containers=docker_containers or [],
         docker_socket='/var/run/docker.sock',
         redis_host='localhost',
@@ -153,7 +153,7 @@ def test_docker_metrics_include_container_label_and_status(monkeypatch):
 
         def run_containers(self, containers, command):
             assert containers == ['amnezia-wg', 'amnezia-wg2']
-            assert command == ['awg', 'show', 'all', 'dump']
+            assert command == ['wg', 'show', 'all', 'dump']
             return {
                 'amnezia-wg': AWG_OUTPUT,
                 'amnezia-wg2': '',
@@ -183,7 +183,7 @@ def test_docker_exec_wrapper_returns_decoded_stdout(monkeypatch):
 
     monkeypatch.setattr(wrapper, '_request', lambda *args: responses.pop(0))
 
-    assert wrapper.run_container('amnezia-wg', ['awg', 'show']) == 'ok'
+    assert wrapper.run_container('amnezia-wg', ['wg', 'show']) == 'ok'
 
 
 def test_docker_exec_wrapper_returns_empty_on_nonzero_exit(monkeypatch):
@@ -196,7 +196,7 @@ def test_docker_exec_wrapper_returns_empty_on_nonzero_exit(monkeypatch):
 
     monkeypatch.setattr(wrapper, '_request', lambda *args: responses.pop(0))
 
-    assert wrapper.run_container('amnezia-wg', ['awg', 'show']) == ''
+    assert wrapper.run_container('amnezia-wg', ['wg', 'show']) == ''
 
 
 def test_docker_exec_wrapper_missing_socket_does_not_crash(monkeypatch):
@@ -207,4 +207,4 @@ def test_docker_exec_wrapper_missing_socket_does_not_crash(monkeypatch):
 
     monkeypatch.setattr(wrapper, '_request', raise_missing_socket)
 
-    assert wrapper.run_container('amnezia-wg', ['awg', 'show']) == ''
+    assert wrapper.run_container('amnezia-wg', ['wg', 'show']) == ''
