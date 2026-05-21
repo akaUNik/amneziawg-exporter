@@ -6,9 +6,10 @@ services:
     container_name: amneziawg-exporter
     hostname: amneziawg-exporter
     volumes:
-      - /usr/bin/awg:/usr/bin/awg
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
       AWG_EXPORTER_REDIS_HOST: amneziawg-exporter-redis
+      AWG_EXPORTER_DOCKER_CONTAINERS: amnezia-wg,amnezia-wg2
     ports:
       - 9351:9351
 
