@@ -36,7 +36,7 @@ The following environment variables can be used to configure amneziawg-exporter.
 | AWG\_EXPORTER\_LISTEN\_ADDR | 0.0.0.0 | Listen address for HTTP service. |
 | AWG\_EXPORTER\_METRICS\_FILE | /tmp/prometheus/awg.prom | Path to the metrics file for Node exporter textfile collector. |
 | AWG\_EXPORTER\_OPS\_MODE | http | Operation mode for the exporter (`http`, `metricsfile`, `oneshot` or `grafana_cloud`). |
-| AWG\_EXPORTER\_AWG\_SHOW\_EXEC | "awg show all dump" | Command to run the `awg show` command. |
+| AWG\_EXPORTER\_AWG\_SHOW\_EXEC | "wg show all dump" | Command to run the `wg show` command. |
 | AWG\_EXPORTER\_DOCKER\_CONTAINERS |   | Comma-separated Docker container names or IDs to run `AWG_EXPORTER_AWG_SHOW_EXEC` in. |
 | AWG\_EXPORTER\_DOCKER\_SOCKET | /var/run/docker.sock | Docker Engine Unix socket used when `AWG_EXPORTER_DOCKER_CONTAINERS` is set. |
 | AWG\_EXPORTER\_EXTRA\_LABEL\_\* |   | Additional labels to add to each metric (`AWG_EXPORTER_EXTRA_LABEL_(.*)` - lowercase key by this regexp) |
@@ -56,7 +56,7 @@ environment:
   AWG_EXPORTER_DOCKER_CONTAINERS: amnezia-wg,amnezia-wg2
 ```
 
-In this mode, `awg` must be available inside each target AmneziaWG container. Mounting `/var/run/docker.sock` gives the exporter privileged access to the host Docker daemon, so only use it with trusted images and configuration.
+In this mode, `wg` must be available inside each target AmneziaWG container. Mounting `/var/run/docker.sock` gives the exporter privileged access to the host Docker daemon, so only use it with trusted images and configuration.
 
 Docker collection mode adds a `container` label to the exported metrics, for example `awg_current_online{container="amnezia-wg"}` and `awg_status{container="amnezia-wg2"}`.
 
