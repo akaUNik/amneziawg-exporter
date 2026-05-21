@@ -1,7 +1,6 @@
 services:
 
   amneziawg-exporter:
-    image: amneziavpn/amneziawg-exporter:latest
     build: .
     container_name: amneziawg-exporter
     hostname: amneziawg-exporter
