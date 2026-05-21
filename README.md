@@ -37,18 +37,39 @@ The following environment variables can be used to configure amneziawg-exporter.
 | AWG_EXPORTER_METRICS_FILE            | /tmp/prometheus/awg.prom    | Path to the metrics file for Node exporter textfile collector.          |
 | AWG_EXPORTER_OPS_MODE                | http                        | Operation mode for the exporter (`http`, `metricsfile`, `oneshot` or `grafana_cloud`). |
 | AWG_EXPORTER_AWG_SHOW_EXEC           | "awg show all dump"         | Command to run the `awg show` command.                                  |
-| AWG_EXPORTER_LABEL_*                 |                             | Additional labels to add to each metric (`AWG_EXPORTER_LABEL_(.*)` - lowercase key by this regexp) |
+| AWG_EXPORTER_DOCKER_CONTAINERS       |                             | Comma-separated Docker container names or IDs to run `AWG_EXPORTER_AWG_SHOW_EXEC` in. |
+| AWG_EXPORTER_DOCKER_SOCKET           | /var/run/docker.sock        | Docker Engine Unix socket used when `AWG_EXPORTER_DOCKER_CONTAINERS` is set. |
+| AWG_EXPORTER_EXTRA_LABEL_*           |                             | Additional labels to add to each metric (`AWG_EXPORTER_EXTRA_LABEL_(.*)` - lowercase key by this regexp) |
 | AWG_EXPORTER_REDIS_HOST              | localhost                   | Redis server host to store peers data                                   |
 | AWG_EXPORTER_REDIS_PORT              | 6379                        | Redis server port to store peers data                                   |
 | AWG_EXPORTER_REDIS_DB                | 0                           | Redis server db number to store peers data                              |
+
+### Docker container collection mode
+
+When `AWG_EXPORTER_DOCKER_CONTAINERS` is set, the exporter uses the Docker Engine API to execute `AWG_EXPORTER_AWG_SHOW_EXEC` inside each listed container. For example:
+
+```yaml
+volumes:
+  - /var/run/docker.sock:/var/run/docker.sock
+environment:
+  AWG_EXPORTER_REDIS_HOST: amneziawg-exporter-redis
+  AWG_EXPORTER_DOCKER_CONTAINERS: amnezia-wg,amnezia-wg2
+```
+
+In this mode, `awg` must be available inside each target AmneziaWG container. Mounting `/var/run/docker.sock` gives the exporter privileged access to the host Docker daemon, so only use it with trusted images and configuration.
+
+Docker collection mode adds a `container` label to the exported metrics, for example `awg_current_online{container="amnezia-wg"}` and `awg_status{container="amnezia-wg2"}`.
 ## Metrics
 
 | Metric name                          | Labels               | Description                                                                 |
 |--------------------------------------|----------------------|-----------------------------------------------------------------------------|
-| awg_current_online                   |                      | Current number of online users.                                             |
-| awg_dau                              |                      | Daily active users.                                                         |
-| awg_mau                              |                      | Monthly active users.                                                       |
-| awg_status                           |                      | Exporter status. 1 - OK, 0 - not OK                                         |
+| awg_current_online                   | container*           | Current number of online users.                                             |
+| awg_dau                              | container*           | Daily active users.                                                         |
+| awg_mau                              | container*           | Monthly active users.                                                       |
+| awg_mau_abs                          | month, container*    | Absolute monthly active users.                                              |
+| awg_status                           | container*           | Exporter status. 1 - OK, 0 - not OK                                         |
+
+`container` is present only when Docker container collection mode is enabled.
 
 ## Docker image
 
