@@ -1,24 +1,30 @@
 services:
-
   amneziawg-exporter:
-    image: amneziavpn/amneziawg-exporter:latest
     build: .
     container_name: amneziawg-exporter
     hostname: amneziawg-exporter
+    restart: unless-stopped
     volumes:
-      - /usr/bin/awg:/usr/bin/awg
+      - /var/run/docker.sock:/var/run/docker.sock
     environment:
+      AWG_EXPORTER_OPS_MODE: http
+      AWG_EXPORTER_HTTP_PORT: "9351"
+      AWG_EXPORTER_LISTEN_ADDR: "0.0.0.0"
       AWG_EXPORTER_REDIS_HOST: amneziawg-exporter-redis
+      AWG_EXPORTER_DOCKER_CONTAINERS: amnezia-awg,amnezia-awg2
+      AWG_EXPORTER_EXTRA_LABEL_HOST: vpn-nl
+      AWG_EXPORTER_EXTRA_LABEL_SERVICE: amneziawg
+      AWG_EXPORTER_SCRAPE_INTERVAL: "30"
     ports:
-      - 9351:9351
+      - "9351:9351"
+    depends_on:
+      - amneziawg-exporter-redis
 
   amneziawg-exporter-redis:
     image: redis:alpine
     container_name: amneziawg-exporter-redis
-    restart: always
+    restart: unless-stopped
     command: ["redis-server", "/etc/redis/redis.conf"]
     volumes:
-      - ./redis.conf:/etc/redis/redis.conf
+      - ./redis.vpn-nl.conf:/etc/redis/redis.conf:ro
       - ./redis-data:/data
-    ports:
-      - "6379:6379"

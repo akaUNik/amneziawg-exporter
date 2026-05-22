@@ -1,8 +1,5 @@
-FROM ubuntu:24.04
-RUN apt-get update && \
-    apt-get install python3-pip -y && \
-    rm -rf /var/lib/apt/lists/* && \
-    pip3 install --no-cache-dir --break-system-packages \
+FROM python:3.12-alpine
+RUN pip install --no-cache-dir \
     prometheus_client==0.20.0 \
     python-decouple==3.8 \
     requests==2.32.3 \
