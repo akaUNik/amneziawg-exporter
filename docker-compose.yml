@@ -26,5 +26,5 @@ services:
     restart: unless-stopped
     command: ["redis-server", "/etc/redis/redis.conf"]
     volumes:
-      - ./redis.vpn-nl.conf:/etc/redis/redis.conf:ro
+      - ./redis.conf:/etc/redis/redis.conf:ro
       - ./redis-data:/data
