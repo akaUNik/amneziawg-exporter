@@ -24,7 +24,7 @@ jobs:
 
       - name: Build and push Docker Image
         env:
-          DOCKER_IMAGE: amneziavpn/amneziawg-exporter
+          DOCKER_IMAGE: burdakovdv/amneziawg-exporter
           DOCKER_USER: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKER_PASSWORD: ${{ secrets.DOCKERHUB_TOKEN }}
         run: make ci
