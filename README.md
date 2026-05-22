@@ -72,6 +72,11 @@ Docker collection mode adds a `container` label to the exported metrics, for exa
 
 `container` is present only when Docker container collection mode is enabled.
 
+## Grafana dashboard
+
+An importable Grafana dashboard is available at [`grafana/dashboards/amneziawg-exporter.json`](grafana/dashboards/amneziawg-exporter.json).
+Import it in Grafana and select the Prometheus datasource that scrapes this exporter.
+
 ## Docker image
 
 The Docker image is built using the [Dockerfile](Dockerfile) available in this repository. You can easily obtain it from [DockerHub](https://hub.docker.com/r/amneziavpn/amneziawg-exporter) by running the command `docker pull amneziavpn/amneziawg-exporter.`
