@@ -1,7 +1,7 @@
 .PHONY: all ci docker_build docker_retag docker_login docker_push
 
-VERSION            := 3.2.1
-PROJECT_NAME       ?= amneziavpn/amneziawg-exporter
+VERSION            := 3.3.1
+PROJECT_NAME       ?= burdakovdv/amneziawg-exporter
 DOCKER_BUILDKIT    ?= 1
 DOCKER_REGISTRY    ?= docker.io
 DOCKER_USER        ?= none
